@@ -1,10 +1,10 @@
-import express from "express";
-import mongoose from "mongoose";
+// import express from "express";
+// import mongoose from "mongoose";
 import dotenv from "dotenv";
-import cors from "cors";
-import bodyParser from "body-parser";
-import http from "http";
-import { Server } from "socket.io";
+// import cors from "cors";
+// import bodyParser from "body-parser";
+// import http from "http";
+// import { Server } from "socket.io";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
@@ -18,7 +18,7 @@ import pullRepo from "./commands/pull.js";
 import revertRepo from "./commands/revert.js";
 
 yargs(hideBin(process.argv))
-    .command("start", "Start the server", {}, startServer)
+    // .command("start", "Start the server", {}, startServer)
     .command("init", "Initialize a new repository.", {}, initRepo)
     .command(
         "add <file>",
@@ -64,56 +64,56 @@ yargs(hideBin(process.argv))
     .demandCommand(1, "You need to specify a command.")
     .help().argv;
 
-const app = express();
-const port = process.env.PORT || 3000;
+// const app = express();
+// const port = process.env.PORT || 3000;
 
-app.use(
-    cors((origin) => {
-        if (process.env.NODE_ENV === "production") {
-            return origin === process.env.CLIENT_URL;
-        }
-        return true;
-    }),
-);
-app.use(bodyParser.json());
-app.use(express.json());
+// app.use(
+//     cors((origin) => {
+//         if (process.env.NODE_ENV === "production") {
+//             return origin === process.env.CLIENT_URL;
+//         }
+//         return true;
+//     }),
+// );
+// app.use(bodyParser.json());
+// app.use(express.json());
 
-const mongoURI = process.env.MONGO_URI;
+// const mongoURI = process.env.MONGO_URI;
 
-mongoose
-    .connect(mongoURI)
-    .then(() => {
-        console.log("Connected to MongoDB");
-    })
-    .catch((err) => {
-        console.error("Error connecting to MongoDB:", err);
-    });
+// mongoose
+//     .connect(mongoURI)
+//     .then(() => {
+//         console.log("Connected to MongoDB");
+//     })
+//     .catch((err) => {
+//         console.error("Error connecting to MongoDB:", err);
+//     });
 
-let user = "test";
-const httpServer = http.createServer(app);
-const io = new Server(httpServer, {
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"],
-    },
-});
+// let user = "test";
+// const httpServer = http.createServer(app);
+// const io = new Server(httpServer, {
+//     cors: {
+//         origin: "*",
+//         methods: ["GET", "POST"],
+//     },
+// });
 
-io.on("connection", (socket) => {
-    socket.on("joinRoom", (userID) => {
-        user = userID;
-        console.log("=====");
-        console.log(user);
-        console.log("=====");
-        socket.join(userID);
-    });
-});
+// io.on("connection", (socket) => {
+//     socket.on("joinRoom", (userID) => {
+//         user = userID;
+//         console.log("=====");
+//         console.log(user);
+//         console.log("=====");
+//         socket.join(userID);
+//     });
+// });
 
-const db = mongoose.connection;
+// const db = mongoose.connection;
 
-db.once("open", async () => {
-    console.log("CRUD operations called");
-});
+// db.once("open", async () => {
+//     console.log("CRUD operations called");
+// });
 
-httpServer.listen(port, () => {
-    console.log(`Server is running on PORT ${port}`);
-});
+// httpServer.listen(port, () => {
+//     console.log(`Server is running on PORT ${port}`);
+// });
