@@ -10,8 +10,10 @@
   "keywords": [],
   "type": "commonjs",
   "dependencies": {
+    "aws-sdk": "^2.1693.0",
     "express": "^5.2.1",
     "mongoose": "^9.9.4",
+    "uuid": "^14.0.2",
     "yargs": "^18.1.0"
   }
 }
