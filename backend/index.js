@@ -20,6 +20,8 @@ import pushRepo from "./commands/push.js";
 import pullRepo from "./commands/pull.js";
 import revertRepo from "./commands/revert.js";
 
+import mainRouter from "./routes/mainRoutes.js";
+
 yargs(hideBin(process.argv))
     .command("start", "Start the server", {}, startServer)
     .command("init", "Initialize a new repository.", {}, initRepo)
@@ -67,56 +69,60 @@ yargs(hideBin(process.argv))
     .demandCommand(1, "You need to specify a command.")
     .help().argv;
 
-const app = express();
-const port = process.env.PORT || 3000;
+function startServer() {
+    const app = express();
+    const port = process.env.PORT || 3000;
 
-app.use(
-    cors((origin) => {
-        if (process.env.NODE_ENV === "production") {
-            return origin === process.env.CLIENT_URL;
-        }
-        return true;
-    }),
-);
-app.use(bodyParser.json());
-app.use(express.json());
+    app.use(
+        cors((origin) => {
+            if (process.env.NODE_ENV === "production") {
+                return origin === process.env.CLIENT_URL;
+            }
+            return true;
+        }),
+    );
+    app.use(bodyParser.json());
+    app.use(express.json());
 
-const mongoURI = process.env.MONGO_URI;
+    const mongoURI = process.env.MONGODB_URI;
 
-mongoose
-    .connect(mongoURI)
-    .then(() => {
-        console.log("Connected to MongoDB");
-    })
-    .catch((err) => {
-        console.error("Error connecting to MongoDB:", err);
+    mongoose
+        .connect(mongoURI)
+        .then(() => {
+            console.log("Connected to MongoDB");
+        })
+        .catch((err) => {
+            console.error("Error connecting to MongoDB:", err);
+        });
+
+    app.use("/", mainRouter);
+
+    let user = "test";
+    const httpServer = http.createServer(app);
+    const io = new Server(httpServer, {
+        cors: {
+            origin: process.env.CLIENT_URL || "http://localhost:5173",
+            methods: ["GET", "POST"],
+        },
     });
 
-let user = "test";
-const httpServer = http.createServer(app);
-const io = new Server(httpServer, {
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"],
-    },
-});
-
-io.on("connection", (socket) => {
-    socket.on("joinRoom", (userID) => {
-        user = userID;
-        console.log("=====");
-        console.log(user);
-        console.log("=====");
-        socket.join(userID);
+    io.on("connection", (socket) => {
+        socket.on("joinRoom", (userID) => {
+            user = userID;
+            console.log("=====");
+            console.log(user);
+            console.log("=====");
+            socket.join(userID);
+        });
     });
-});
 
-const db = mongoose.connection;
+    const db = mongoose.connection;
 
-db.once("open", async () => {
-    console.log("CRUD operations called");
-});
+    db.once("open", async () => {
+        console.log("CRUD operations called");
+    });
 
-httpServer.listen(port, () => {
-    console.log(`Server is running on PORT ${port}`);
-});
+    httpServer.listen(port, () => {
+        console.log(`Server is running on PORT ${port}`);
+    });
+}
