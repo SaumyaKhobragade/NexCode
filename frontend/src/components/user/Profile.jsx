@@ -302,7 +302,9 @@ const Profile = () => {
                                                                 >
                                                                     <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
                                                                 </svg>
-                                                                <span className="repo-title">{repo.name}</span>
+                                                                <Link to={`/repo/${repo._id}`} className="repo-title" style={{ textDecoration: "none", color: "inherit" }}>
+                                                                    {repo.name}
+                                                                </Link>
                                                                 <span className={`repo-badge-pill ${isPublic ? "public" : "private"}`}>
                                                                     {isPublic ? "Public" : "Private"}
                                                                 </span>
@@ -392,7 +394,9 @@ const Profile = () => {
                                                             >
                                                                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
                                                             </svg>
-                                                            <span className="repo-title">{repo.name}</span>
+                                                            <Link to={`/repo/${repo._id}`} className="repo-title" style={{ textDecoration: "none", color: "inherit" }}>
+                                                                {repo.name}
+                                                            </Link>
                                                             <span className={`repo-badge-pill ${isPublic ? "public" : "private"}`}>
                                                                 {isPublic ? "Public" : "Private"}
                                                             </span>

@@ -17,6 +17,31 @@ const IssueSchema = new Schema(
             enum: ["open", "closed"],
             default: "open",
         },
+        author: {
+            type: String,
+            default: "developer",
+        },
+        labels: [
+            {
+                type: String,
+            },
+        ],
+        comments: [
+            {
+                author: {
+                    type: String,
+                    default: "developer",
+                },
+                text: {
+                    type: String,
+                    required: true,
+                },
+                createdAt: {
+                    type: Date,
+                    default: Date.now,
+                },
+            },
+        ],
         repository: {
             type: Schema.Types.ObjectId,
             ref: "Repository",

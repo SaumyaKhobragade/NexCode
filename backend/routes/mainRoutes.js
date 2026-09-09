@@ -10,6 +10,7 @@ mainRouter.use(userRouter);
 mainRouter.use("/repositories", repoRouter);
 mainRouter.use("/repo", repoRouter);
 mainRouter.use("/issues", issueRouter);
+mainRouter.use("/issue", issueRouter);
 
 mainRouter.get("/", (req, res) => {
     res.send("Welcome to the DevHub API!");

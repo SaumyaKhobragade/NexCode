@@ -57,6 +57,17 @@ const Navbar = ({ onOpenCreateModal }) => {
                         Dashboard
                     </Link>
                     <Link
+                        to="/issues"
+                        className={`nex-nav-link ${location.pathname.startsWith("/issue") ? "active" : ""}`}
+                    >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <circle cx="12" cy="12" r="1" />
+                            <line x1="12" y1="7" x2="12" y2="13" />
+                        </svg>
+                        Issues
+                    </Link>
+                    <Link
                         to="/profile"
                         className={`nex-nav-link ${location.pathname === "/profile" ? "active" : ""}`}
                     >

@@ -55,9 +55,16 @@ async function getAllRepositories(req, res) {
 async function fetchRepositoryById(req, res) {
     const { id } = req.params;
     try {
-        const repository = await Repository.find({ _id: id })
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: "Invalid repository ID" });
+        }
+        const repository = await Repository.findById(id)
             .populate("owner")
             .populate("issues");
+
+        if (!repository) {
+            return res.status(404).json({ error: "Repository not found!" });
+        }
 
         res.json(repository);
     } catch (err) {
@@ -69,9 +76,13 @@ async function fetchRepositoryById(req, res) {
 async function fetchRepositoryByName(req, res) {
     const { name } = req.params;
     try {
-        const repository = await Repository.find({ name })
+        const repository = await Repository.findOne({ name })
             .populate("owner")
             .populate("issues");
+
+        if (!repository) {
+            return res.status(404).json({ error: "Repository not found!" });
+        }
 
         res.json(repository);
     } catch (err) {
@@ -98,7 +109,7 @@ async function fetchRepositoriesForCurrentUser(req, res) {
 
 async function updateRepositoryById(req, res) {
     const { id } = req.params;
-    const { content, description } = req.body;
+    const { content, description, name } = req.body;
 
     try {
         const repository = await Repository.findById(id);
@@ -106,8 +117,15 @@ async function updateRepositoryById(req, res) {
             return res.status(404).json({ error: "Repository not found!" });
         }
 
-        repository.content.push(content);
-        repository.description = description;
+        if (content) {
+            repository.content.push(content);
+        }
+        if (description !== undefined) {
+            repository.description = description;
+        }
+        if (name) {
+            repository.name = name;
+        }
 
         const updatedRepository = await repository.save();
 

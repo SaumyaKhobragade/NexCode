@@ -5,6 +5,9 @@ import Dashboard from './components/dashboard/Dashboard'
 import Profile from './components/user/Profile'
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
+import RepoDetail from "./components/repo/RepoDetail";
+import GlobalIssues from "./components/issue/GlobalIssues";
+import IssueDetail from "./components/issue/IssueDetail";
 
 import { useAuth } from "./contexts/AuthContext";
 
@@ -43,6 +46,30 @@ function App() {
   {
     path: "/profile",
     element: <Profile />
+  },
+  {
+    path: "/repo/:id",
+    element: <RepoDetail />
+  },
+  {
+    path: "/repository/:id",
+    element: <RepoDetail />
+  },
+  {
+    path: "/issues",
+    element: <GlobalIssues />
+  },
+  {
+    path: "/issues/:id",
+    element: <IssueDetail />
+  },
+  {
+    path: "/issue/:id",
+    element: <IssueDetail />
+  },
+  {
+    path: "/repo/:repoId/issues/:issueId",
+    element: <IssueDetail />
   }
   ]);
 

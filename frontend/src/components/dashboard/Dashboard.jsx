@@ -409,7 +409,9 @@ const Dashboard = () => {
                                                     >
                                                         <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
                                                     </svg>
-                                                    <span className="repo-title">{repo.name}</span>
+                                                    <Link to={`/repo/${repo._id}`} className="repo-title" style={{ textDecoration: "none", color: "inherit" }}>
+                                                        {repo.name}
+                                                    </Link>
                                                     <span className={`repo-badge-pill ${isPublic ? "public" : "private"}`}>
                                                         {isPublic ? "Public" : "Private"}
                                                     </span>
@@ -491,12 +493,12 @@ const Dashboard = () => {
                                 {suggestedRepositories.length > 0 ? (
                                     suggestedRepositories.slice(0, 5).map((repo, idx) => (
                                         <div key={repo._id || idx} className="suggested-item">
-                                            <div className="suggested-title">
+                                            <Link to={`/repo/${repo._id}`} className="suggested-title" style={{ textDecoration: "none", color: "inherit" }}>
                                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" strokeWidth="2">
                                                     <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
                                                 </svg>
                                                 <span>{repo.name}</span>
-                                            </div>
+                                            </Link>
                                             <p className="suggested-desc">
                                                 {repo.description || "Open-source developer repository on NexCode"}
                                             </p>
