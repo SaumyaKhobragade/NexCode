@@ -8,6 +8,7 @@ const mainRouter = express.Router();
 
 mainRouter.use(userRouter);
 mainRouter.use("/repositories", repoRouter);
+mainRouter.use("/repo", repoRouter);
 mainRouter.use("/issues", issueRouter);
 
 mainRouter.get("/", (req, res) => {

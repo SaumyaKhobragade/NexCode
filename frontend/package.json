@@ -10,8 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@uiw/react-heat-map": "^2.3.4",
+    "axios": "^1.20.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.3",
+    "uiw": "^4.22.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

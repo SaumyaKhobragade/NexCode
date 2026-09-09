@@ -20,6 +20,10 @@ import pushRepo from "./commands/push.js";
 import pullRepo from "./commands/pull.js";
 import revertRepo from "./commands/revert.js";
 
+import User from "./models/userModel.js";
+import Repository from "./models/repoModel.js";
+import Issue from "./models/issueModel.js";
+
 import mainRouter from "./routes/mainRoutes.js";
 
 yargs(hideBin(process.argv))
@@ -74,11 +78,9 @@ function startServer() {
     const port = process.env.PORT || 3000;
 
     app.use(
-        cors((origin) => {
-            if (process.env.NODE_ENV === "production") {
-                return origin === process.env.CLIENT_URL;
-            }
-            return true;
+        cors({
+            origin: process.env.NODE_ENV === "production" ? process.env.CLIENT_URL : true,
+            credentials: true,
         }),
     );
     app.use(bodyParser.json());
@@ -87,7 +89,7 @@ function startServer() {
     const mongoURI = process.env.MONGODB_URI;
 
     mongoose
-        .connect(mongoURI)
+        .connect(mongoURI, { dbName: "NexCode" })
         .then(() => {
             console.log("Connected to MongoDB");
         })
